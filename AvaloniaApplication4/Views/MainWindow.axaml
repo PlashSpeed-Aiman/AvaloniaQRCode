@@ -1,0 +1,57 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:AvaloniaApplication4.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+        x:Class="AvaloniaApplication4.Views.MainWindow"
+        Icon="/Assets/download.png"
+        Title="AvaloniaQR : Copyright @ PlashSpeed-Aiman"
+        >
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <Grid>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="250" />
+		<ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+		<ColumnDefinition Width="*" />
+
+	</Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+		<RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="*" />
+		<RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+		
+        <Border Background="#00877d" Grid.RowSpan="5">
+            <StackPanel>
+                <TextBlock Margin="10" Foreground="White">Instruction : </TextBlock>
+                <TextBlock Margin="10" Foreground="White">Insert Data, Generate, then Save</TextBlock>
+                <Image MaxHeight="200" MaxWidth="200" Stretch="Fill"  Margin="0,10,0,0" Source="{Binding BitmapVal}" Grid.Row="0" Grid.Column="0" ></Image>
+			</StackPanel>
+
+		</Border>
+		<StackPanel Margin="20,0,20,0" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4">
+            <Label  Margin="0,10,0,5" FontSize="20" Grid.Row="1">Data To Convert</Label>
+            <TextBox FontSize="20" Text ="{Binding ConvertText}" ></TextBox>
+            <Label Margin="0,10,0,5" FontSize="20" Grid.Row="1">Filename</Label>
+            <TextBox FontSize="20" Text="{Binding QRFileName}"></TextBox>
+            <Label Margin="0,10,0,5" FontSize="20">File Type</Label>
+            <ComboBox Name="ComboFileType" SelectedIndex="0">
+                <ComboBoxItem Content = ".jpg" />
+                <ComboBoxItem Content = ".png" />
+                <ComboBoxItem Content = ".bmp" />
+			</ComboBox>
+            <StackPanel Orientation="Horizontal">
+                <Button FontSize="20" Margin="0,10,0,0" Command="{Binding getQRCode}" >Generate</Button>
+                <Button FontSize="20" Margin="10,10,0,0" Command="{Binding SaveQRFile}" CommandParameter="{Binding ElementName=ComboFileType,Path=SelectedItem}">Save</Button>
+            </StackPanel>
+		</StackPanel>
+    </Grid>
+</Window>
