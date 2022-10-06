@@ -3,10 +3,11 @@
         xmlns:vm="using:AvaloniaApplication4.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+        xmlns:controls="clr-namespace:Avalonia.Notification.Controls;assembly=Notification.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
         x:Class="AvaloniaApplication4.Views.MainWindow"
         Icon="/Assets/download.png"
-        Title="AvaloniaQR : Copyright @ PlashSpeed-Aiman"
+        Title="AvaloniaQR 0.02-Alpha : Copyright @ PlashSpeed-Aiman"
         >
 
     <Design.DataContext>
@@ -28,7 +29,43 @@
         <RowDefinition Height="*" />
 		<RowDefinition Height="*" />
     </Grid.RowDefinitions>
-		
+        <Border Grid.Column="1" Grid.ColumnSpan="3">
+			<controls:NotificationMessageContainer  Manager="{Binding Manager}">
+                <controls:NotificationMessageContainer.Styles>
+                    <Style Selector="controls|NotificationMessageContainer">
+
+                        <Setter Property="ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type controls:NotificationMessageContainer}">
+                                    <Grid>
+
+                                        <Border 
+                                                x:Name="ItemsBorder"
+                                                Margin="12,0,12,12"
+                                                Padding="{TemplateBinding Padding}"
+                                                Background="{TemplateBinding Background}"
+                                                UseLayoutRounding="True">
+
+                                            <ItemsPresenter>
+
+                                            </ItemsPresenter>
+                                        </Border>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="VerticalAlignment" Value="Top" />
+                    </Style>
+				</controls:NotificationMessageContainer.Styles>
+            </controls:NotificationMessageContainer>
+        </Border>
         <Border Background="#00877d" Grid.RowSpan="5">
             <StackPanel>
                 <TextBlock Margin="10" Foreground="White">Instruction : </TextBlock>
@@ -37,11 +74,11 @@
 			</StackPanel>
 
 		</Border>
-		<StackPanel Margin="20,0,20,0" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4">
+		<StackPanel Margin="20,0,20,0" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
             <Label  Margin="0,10,0,5" FontSize="20" Grid.Row="1">Data To Convert</Label>
-            <TextBox FontSize="20" Text ="{Binding ConvertText}" ></TextBox>
+            <TextBox FontSize="20" Text ="{Binding ConvertText, Mode=TwoWay}" ></TextBox>
             <Label Margin="0,10,0,5" FontSize="20" Grid.Row="1">Filename</Label>
-            <TextBox FontSize="20" Text="{Binding QRFileName}"></TextBox>
+            <TextBox FontSize="20" Text="{Binding QRFileName, Mode=TwoWay}"></TextBox>
             <Label Margin="0,10,0,5" FontSize="20">File Type</Label>
             <ComboBox Name="ComboFileType" SelectedIndex="0">
                 <ComboBoxItem Content = ".jpg" />
@@ -53,5 +90,34 @@
                 <Button FontSize="20" Margin="10,10,0,0" Command="{Binding SaveQRFile}" CommandParameter="{Binding ElementName=ComboFileType,Path=SelectedItem}">Save</Button>
             </StackPanel>
 		</StackPanel>
+		<Border Grid.Row="0" Grid.RowSpan="5" Grid.Column="4" MaxWidth="500">
+			<ListBox HorizontalAlignment="Stretch" Name="ListBox" Items="{Binding QRCodes}" Background="#F2F2F2">
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{StaticResource AccentButtonForeground}" CornerRadius="4" Padding="10" >
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap" Text="{Binding Link}" Margin="0,0,0,5"/>
+                                <TextBlock Text="{Binding FileName}" Margin="0,0,0,5"/>
+                                <StackPanel  Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
+                                    <Button HorizontalContentAlignment="Center" Foreground="White" Background="#e53935"
+                                            Content="Delete"
+                                            IsEnabled="{Binding Path=IsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}},Path=DataContext.DeleteListItem}" CommandParameter="{Binding ElementName=ListBox,Path=SelectedIndex}"></Button>
+
+                                    <Button Background="#1e88e5" Foreground="White"
+                                        HorizontalContentAlignment="Center"  x:Name="Button_Delete" IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"
+                                            Width="100" Content="Generate" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}},Path=DataContext.QrCodeListGen}" CommandParameter="{Binding ElementName=ListBox,Path=SelectedItem}">
+                                    </Button>
+								</StackPanel>
+
+							</StackPanel>
+						</Border>
+
+					</DataTemplate>
+                </ListBox.ItemTemplate>
+				
+		</ListBox>
+        </Border>
     </Grid>
 </Window>

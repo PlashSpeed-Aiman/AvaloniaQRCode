@@ -1,6 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:AvaloniaApplication4"
+             xmlns:notification="clr-namespace:Avalonia.Notification;assembly=Notification.Avalonia"
              x:Class="AvaloniaApplication4.App">
     <Application.DataTemplates>
         <local:ViewLocator/>
@@ -8,5 +9,6 @@
 
     <Application.Styles>
         <FluentTheme Mode="Light"/>
+        <notification:NotificationStyle />
     </Application.Styles>
 </Application>
