@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:Avalonia.Notification.Controls;assembly=Notification.Avalonia"
+        xmlns:models="clr-namespace:AvaloniaApplication4.Models"
+        xmlns:viewModels="clr-namespace:AvaloniaApplication4.ViewModels"
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
         x:Class="AvaloniaApplication4.Views.MainWindow"
         Icon="/Assets/download.png"
         Title="AvaloniaQR 0.02-Alpha : Copyright @ PlashSpeed-Aiman"
-        >
+        x:DataType="viewModels:MainWindowViewModel">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -30,7 +32,7 @@
 		<RowDefinition Height="*" />
     </Grid.RowDefinitions>
         <Border Grid.Column="1" Grid.ColumnSpan="3">
-			<controls:NotificationMessageContainer  Manager="{Binding Manager}">
+			<controls:NotificationMessageContainer  Manager="{CompiledBinding Manager}">
                 <controls:NotificationMessageContainer.Styles>
                     <Style Selector="controls|NotificationMessageContainer">
 
@@ -68,17 +70,17 @@
         </Border>
         <Border Background="#00877d" Grid.RowSpan="5">
             <StackPanel>
-                <TextBlock Margin="10" Foreground="White">Instruction : </TextBlock>
-                <TextBlock Margin="10" Foreground="White">Insert Data, Generate, then Save</TextBlock>
-                <Image MaxHeight="200" MaxWidth="200" Stretch="Fill"  Margin="0,10,0,0" Source="{Binding BitmapVal}" Grid.Row="0" Grid.Column="0" ></Image>
+                <TextBlock Margin="10" Foreground="White" Text="Instruction :"/>
+                <TextBlock Margin="10" Foreground="White" Text="Insert Data, Generate, then Save" />
+                <Image MaxHeight="200" MaxWidth="200" Stretch="Fill"  Margin="0,10,0,0" Source="{CompiledBinding BitmapVal}" Grid.Row="0" Grid.Column="0" ></Image>
 			</StackPanel>
 
 		</Border>
 		<StackPanel Margin="20,0,20,0" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
             <Label  Margin="0,10,0,5" FontSize="20" Grid.Row="1">Data To Convert</Label>
-            <TextBox FontSize="20" Text ="{Binding ConvertText, Mode=TwoWay}" ></TextBox>
+            <TextBox FontSize="20" MaxHeight="250" Text ="{CompiledBinding ConvertText, Mode=TwoWay}" ></TextBox>
             <Label Margin="0,10,0,5" FontSize="20" Grid.Row="1">Filename</Label>
-            <TextBox FontSize="20" Text="{Binding QRFileName, Mode=TwoWay}"></TextBox>
+            <TextBox FontSize="20" Text="{CompiledBinding QRFileName, Mode=TwoWay}"></TextBox>
             <Label Margin="0,10,0,5" FontSize="20">File Type</Label>
             <ComboBox Name="ComboFileType" SelectedIndex="0">
                 <ComboBoxItem Content = ".jpg" />
@@ -94,11 +96,11 @@
 			<ListBox HorizontalAlignment="Stretch" Name="ListBox" Items="{Binding QRCodes}" Background="#F2F2F2">
 
                 <ListBox.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="models:QrCode">
                         <Border Background="{StaticResource AccentButtonForeground}" CornerRadius="4" Padding="10" >
                             <StackPanel>
-                                <TextBlock TextWrapping="Wrap" Text="{Binding Link}" Margin="0,0,0,5"/>
-                                <TextBlock Text="{Binding FileName}" Margin="0,0,0,5"/>
+                                <TextBlock TextWrapping="Wrap" Text="{CompiledBinding Link}" Margin="0,0,0,5"/>
+                                <TextBlock Text="{CompiledBinding FileName}" Margin="0,0,0,5"/>
                                 <StackPanel  Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
                                     <Button HorizontalContentAlignment="Center" Foreground="White" Background="#e53935"
                                             Content="Delete"

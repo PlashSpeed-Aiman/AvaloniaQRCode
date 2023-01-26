@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Notification;
 using Avalonia.Platform;
+using Avalonia.Visuals;
 using AvaloniaApplication4.Models;
 using QRCoder;
 using ReactiveUI;
@@ -28,20 +31,28 @@ namespace AvaloniaApplication4.ViewModels
         private byte[]? _qrcodeByte = null;
         private Avalonia.Media.Imaging.Bitmap _bitmapVal;
         private ObservableCollection<QrCode> _qrcodes;
-        private ObservableCollection<string> _testString = new ObservableCollection<string>();
+        private QRCodeGenerator _qrGenerator;
+
         public INotificationMessageManager Manager { get; } = new NotificationMessageManager();
 
         public MainWindowViewModel()
         {
             
             var text = String.Empty;
+            _qrGenerator = new QRCodeGenerator();
             app_dir = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             _qrcodes = new ObservableCollection<QrCode>();
-
+            GenerateQrCodeStreamCommand = ReactiveCommand.Create<String,Unit>(GenerateQRCodeStream);
+            this.WhenAnyValue(x => x.ConvertText)
+                .Where(x => !String.IsNullOrWhiteSpace(x))
+                .Throttle(TimeSpan.FromSeconds(0.5))
+                .DistinctUntilChanged()
+                .InvokeCommand(GenerateQrCodeStreamCommand);
+           
             try
             {
                 text =
-                    System.IO.File.ReadAllText(
+                    File.ReadAllText(
                         @$"{app_dir}\{list_file}");
                 var list = JsonSerializer.Deserialize<IList<QrCode>>(text);
                 if (list.Count > 0)
@@ -67,6 +78,7 @@ namespace AvaloniaApplication4.ViewModels
 
 
         }
+        public ReactiveCommand<String,Unit> GenerateQrCodeStreamCommand { get; }
         public Avalonia.Media.Imaging.Bitmap BitmapVal
         {
             get => _bitmapVal;
@@ -77,11 +89,7 @@ namespace AvaloniaApplication4.ViewModels
             }
         }
 
-        public ObservableCollection<String> TestString
-        {
-            get => this._testString;
-            set => this.RaiseAndSetIfChanged(ref _testString, value);
-        }
+       
         public string QRFileName
         {
             get  => _qrFileName;
@@ -111,8 +119,7 @@ namespace AvaloniaApplication4.ViewModels
         }
         public byte[] GenerateQrCode(string str = "")
         {
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(str, QRCodeGenerator.ECCLevel.Q);
+            QRCodeData qrCodeData = _qrGenerator.CreateQrCode(str, QRCodeGenerator.ECCLevel.Q);
             BitmapByteQRCode qrCode = new BitmapByteQRCode(qrCodeData);
             var codeByte = qrCode.GetGraphic(20);
             return codeByte;
@@ -135,6 +142,19 @@ namespace AvaloniaApplication4.ViewModels
 
         }
 
+        private Unit GenerateQRCodeStream(string parameter)
+        {
+            var newString = _convertTextVal.Trim();
+            _qrcodeByte = GenerateQrCode(newString);
+            using (var ms = new MemoryStream(_qrcodeByte))
+            {
+                var img = new Avalonia.Media.Imaging.Bitmap(ms);
+                BitmapVal = img;
+                    
+            }
+
+            return Unit.Default;
+        }
         public void getQRCode()
         {
             if (_convertTextVal != String.Empty)
