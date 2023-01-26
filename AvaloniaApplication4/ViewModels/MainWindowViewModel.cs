@@ -20,6 +20,8 @@ using AvaloniaApplication4.Models;
 using QRCoder;
 using ReactiveUI;
 using System.Text.Json;
+using System.Threading;
+
 namespace AvaloniaApplication4.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
@@ -232,11 +234,10 @@ namespace AvaloniaApplication4.ViewModels
 
         private async void SaveToJpeg(string filename)
         {
-            await Task.Run(() =>
+             _ =  Task.Run(() =>
             {
                 using (var ms = new MemoryStream(_qrcodeByte))
                 {
-                     
                     var img = new System.Drawing.Bitmap(ms);
                     img.Save(filename, ImageFormat.Jpeg);
 
@@ -247,7 +248,7 @@ namespace AvaloniaApplication4.ViewModels
 
         private async void SaveListToJson()
         {
-            await Task.Run(() =>
+            _ = Task.Run(action: () =>
             {
                 var str = JsonSerializer.Serialize(_qrcodes);
                 File.WriteAllTextAsync($"{app_dir}/{list_file}",str);
