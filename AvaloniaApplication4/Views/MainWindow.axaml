@@ -9,7 +9,7 @@
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
         x:Class="AvaloniaApplication4.Views.MainWindow"
         Icon="/Assets/download.png"
-        Title="AvaloniaQR 0.02-Alpha : Copyright @ PlashSpeed-Aiman"
+        Title="AvaloniaQR 0.03-Alpha : Copyright @ PlashSpeed-Aiman"
         x:DataType="viewModels:MainWindowViewModel">
 
     <Design.DataContext>
