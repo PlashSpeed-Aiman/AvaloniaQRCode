@@ -10,6 +10,17 @@ namespace AvaloniaApplication4
         public IControl Build(object data)
         {
             var name = data.GetType().FullName!.Replace("ViewModel", "View");
+
+            // Try to find view in Views.Pages namespace for page ViewModels
+            if (name.Contains("PageView"))
+            {
+                name = name.Replace("PageView", "Page").Replace("ViewModels", "Views.Pages");
+            }
+            else
+            {
+                name = name.Replace("ViewModels", "Views");
+            }
+
             var type = Type.GetType(name);
 
             if (type != null)
