@@ -82,14 +82,14 @@
             <Label Margin="0,10,0,5" FontSize="20" Grid.Row="1">Filename</Label>
             <TextBox FontSize="20" Text="{CompiledBinding QRFileName, Mode=TwoWay}"></TextBox>
             <Label Margin="0,10,0,5" FontSize="20">File Type</Label>
-            <ComboBox Name="ComboFileType" SelectedIndex="0">
-                <ComboBoxItem Content = ".jpg" />
-                <ComboBoxItem Content = ".png" />
-                <ComboBoxItem Content = ".bmp" />
+            <ComboBox SelectedItem="{CompiledBinding SelectedFileExtension}">
+                <x:String>.jpg</x:String>
+                <x:String>.png</x:String>
+                <x:String>.bmp</x:String>
 			</ComboBox>
             <StackPanel Orientation="Horizontal">
-                <Button FontSize="20" Margin="0,10,0,0" Command="{Binding getQRCode}" >Generate</Button>
-                <Button FontSize="20" Margin="10,10,0,0" Command="{Binding SaveQRFile}" CommandParameter="{Binding ElementName=ComboFileType,Path=SelectedItem}">Save</Button>
+                <Button FontSize="20" Margin="0,10,0,0" Command="{CompiledBinding GenerateAndSaveQRCode}">Generate</Button>
+                <Button FontSize="20" Margin="10,10,0,0" Command="{CompiledBinding SaveQRFile}">Save</Button>
             </StackPanel>
 		</StackPanel>
 		<Border Grid.Row="0" Grid.RowSpan="5" Grid.Column="4" MaxWidth="500">
@@ -109,7 +109,7 @@
 
                                     <Button Background="#1e88e5" Foreground="White"
                                         HorizontalContentAlignment="Center"  x:Name="Button_Delete" IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"
-                                            Width="100" Content="Generate" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}},Path=DataContext.QrCodeListGen}" CommandParameter="{Binding ElementName=ListBox,Path=SelectedItem}">
+                                            Width="100" Content="Generate" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}},Path=DataContext.RegenerateFromHistory}" CommandParameter="{Binding ElementName=ListBox,Path=SelectedItem}">
                                     </Button>
 								</StackPanel>
 
