@@ -14,15 +14,18 @@
         <SolidColorBrush x:Key="FluentTextPrimary" Color="#000000"/>
         <SolidColorBrush x:Key="FluentTextSecondary" Color="#605E5C"/>
         <SolidColorBrush x:Key="FluentBorderColor" Color="#E1DFDD"/>
+    </UserControl.Resources>
 
+    <UserControl.Styles>
         <!-- Card Style -->
-        <ControlTheme x:Key="FluentCard" TargetType="Border">
+        <Style Selector="Border.FluentCard">
             <Setter Property="Background" Value="{StaticResource FluentCardBackground}"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="24"/>
-            <Setter Property="BoxShadow" Value="0 2 8 0 #15000000"/>
-        </ControlTheme>
-    </UserControl.Resources>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#10000000"/>
+        </Style>
+    </UserControl.Styles>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32">
         <StackPanel Spacing="32" MaxWidth="800" HorizontalAlignment="Center">
@@ -43,7 +46,7 @@
             </StackPanel>
 
             <!-- Version Info Card -->
-            <Border Theme="{StaticResource FluentCard}">
+            <Border Classes="FluentCard">
                 <StackPanel Spacing="16">
                     <TextBlock Text="Version Information"
                                FontSize="18"
@@ -79,7 +82,7 @@
             </Border>
 
             <!-- Features Card -->
-            <Border Theme="{StaticResource FluentCard}">
+            <Border Classes="FluentCard">
                 <StackPanel Spacing="16">
                     <TextBlock Text="Features"
                                FontSize="18"
@@ -116,7 +119,7 @@
             </Border>
 
             <!-- Credits Card -->
-            <Border Theme="{StaticResource FluentCard}">
+            <Border Classes="FluentCard">
                 <StackPanel Spacing="16">
                     <TextBlock Text="Credits &amp; Technologies"
                                FontSize="18"
@@ -136,7 +139,7 @@
             </Border>
 
             <!-- Copyright Card -->
-            <Border Theme="{StaticResource FluentCard}" Background="#F9F9F9">
+            <Border Classes="FluentCard" Background="#F9F9F9">
                 <StackPanel Spacing="12" HorizontalAlignment="Center">
                     <TextBlock Text="{Binding Copyright}"
                                FontSize="13"

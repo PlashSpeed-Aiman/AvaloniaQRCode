@@ -14,16 +14,20 @@
         <SolidColorBrush x:Key="FluentTextPrimary" Color="#000000"/>
         <SolidColorBrush x:Key="FluentTextSecondary" Color="#605E5C"/>
         <SolidColorBrush x:Key="FluentBorderColor" Color="#E1DFDD"/>
+    </UserControl.Resources>
 
+    <UserControl.Styles>
         <!-- Card Style -->
-        <ControlTheme x:Key="FluentCard" TargetType="Border">
+        <Style Selector="Border.FluentCard">
             <Setter Property="Background" Value="{StaticResource FluentCardBackground}"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Padding" Value="24"/>
-            <Setter Property="BoxShadow" Value="0 2 8 0 #15000000"/>
-        </ControlTheme>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#10000000"/>
+        </Style>
 
-        <ControlTheme x:Key="FluentTextBox" TargetType="TextBox">
+        <!-- TextBox Style -->
+        <Style Selector="TextBox.FluentTextBox">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="{StaticResource FluentBorderColor}"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -31,9 +35,10 @@
             <Setter Property="CornerRadius" Value="4"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="MinHeight" Value="40"/>
-        </ControlTheme>
+        </Style>
 
-        <ControlTheme x:Key="FluentComboBox" TargetType="ComboBox">
+        <!-- ComboBox Style -->
+        <Style Selector="ComboBox.FluentComboBox">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="{StaticResource FluentBorderColor}"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -41,8 +46,8 @@
             <Setter Property="CornerRadius" Value="4"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="MinHeight" Value="40"/>
-        </ControlTheme>
-    </UserControl.Resources>
+        </Style>
+    </UserControl.Styles>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32">
         <StackPanel Spacing="24" MaxWidth="800">
@@ -53,13 +58,13 @@
             </StackPanel>
 
             <!-- General Settings Card -->
-            <Border Theme="{StaticResource FluentCard}">
+            <Border Classes="FluentCard">
                 <StackPanel Spacing="20">
                     <TextBlock Text="General" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FluentTextPrimary}"/>
 
                     <StackPanel Spacing="8">
                         <TextBlock Text="Default Save Location" FontSize="13" FontWeight="Medium" Foreground="{StaticResource FluentTextPrimary}"/>
-                        <TextBox Theme="{StaticResource FluentTextBox}"
+                        <TextBox Classes="FluentTextBox"
                                  Text="{Binding DefaultSaveLocation, Mode=TwoWay}"
                                  IsReadOnly="True"
                                  Watermark="Select folder..."/>
@@ -71,7 +76,7 @@
 
                     <StackPanel Spacing="8">
                         <TextBlock Text="Default File Format" FontSize="13" FontWeight="Medium" Foreground="{StaticResource FluentTextPrimary}"/>
-                        <ComboBox Theme="{StaticResource FluentComboBox}"
+                        <ComboBox Classes="FluentComboBox"
                                   SelectedItem="{Binding DefaultFileFormat, Mode=TwoWay}"
                                   HorizontalAlignment="Stretch">
                             <x:String>.jpg</x:String>
@@ -85,7 +90,7 @@
             </Border>
 
             <!-- QR Code Settings Card -->
-            <Border Theme="{StaticResource FluentCard}">
+            <Border Classes="FluentCard">
                 <StackPanel Spacing="20">
                     <TextBlock Text="QR Code" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FluentTextPrimary}"/>
 
@@ -104,7 +109,7 @@
             </Border>
 
             <!-- Auto-Generate Settings Card -->
-            <Border Theme="{StaticResource FluentCard}">
+            <Border Classes="FluentCard">
                 <StackPanel Spacing="20">
                     <TextBlock Text="Auto-Generate" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource FluentTextPrimary}"/>
 
@@ -133,7 +138,7 @@
             </Border>
 
             <!-- Info Card -->
-            <Border Theme="{StaticResource FluentCard}"
+            <Border Classes="FluentCard"
                     Background="#F0F6FC"
                     BorderBrush="#0078D4"
                     BorderThickness="1"
