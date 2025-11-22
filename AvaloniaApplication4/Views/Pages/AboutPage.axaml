@@ -1,0 +1,153 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApplication4.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="700"
+             x:Class="AvaloniaApplication4.Views.Pages.AboutPage"
+             x:DataType="vm:AboutPageViewModel">
+
+    <UserControl.Resources>
+        <!-- Fluent Colors -->
+        <SolidColorBrush x:Key="FluentAccent" Color="#0078D4"/>
+        <SolidColorBrush x:Key="FluentCardBackground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="FluentTextPrimary" Color="#000000"/>
+        <SolidColorBrush x:Key="FluentTextSecondary" Color="#605E5C"/>
+        <SolidColorBrush x:Key="FluentBorderColor" Color="#E1DFDD"/>
+
+        <!-- Card Style -->
+        <ControlTheme x:Key="FluentCard" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource FluentCardBackground}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="24"/>
+            <Setter Property="BoxShadow" Value="0 2 8 0 #15000000"/>
+        </ControlTheme>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="32">
+        <StackPanel Spacing="32" MaxWidth="800" HorizontalAlignment="Center">
+            <!-- App Icon and Name -->
+            <StackPanel Spacing="16" HorizontalAlignment="Center">
+                <TextBlock Text="📱" FontSize="64" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding AppName}"
+                           FontSize="36"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Foreground="{StaticResource FluentTextPrimary}"/>
+                <TextBlock Text="{Binding Description}"
+                           FontSize="14"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           Foreground="{StaticResource FluentTextSecondary}"/>
+            </StackPanel>
+
+            <!-- Version Info Card -->
+            <Border Theme="{StaticResource FluentCard}">
+                <StackPanel Spacing="16">
+                    <TextBlock Text="Version Information"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource FluentTextPrimary}"/>
+
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnGap="16" RowGap="12">
+                        <TextBlock Grid.Row="0" Grid.Column="0"
+                                   Text="Version:"
+                                   FontWeight="Medium"
+                                   Foreground="{StaticResource FluentTextSecondary}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding AppVersion}"
+                                   Foreground="{StaticResource FluentTextPrimary}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0"
+                                   Text="Framework:"
+                                   FontWeight="Medium"
+                                   Foreground="{StaticResource FluentTextSecondary}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding Framework}"
+                                   Foreground="{StaticResource FluentTextPrimary}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0"
+                                   Text="License:"
+                                   FontWeight="Medium"
+                                   Foreground="{StaticResource FluentTextSecondary}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding License}"
+                                   Foreground="{StaticResource FluentTextPrimary}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Features Card -->
+            <Border Theme="{StaticResource FluentCard}">
+                <StackPanel Spacing="16">
+                    <TextBlock Text="Features"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource FluentTextPrimary}"/>
+
+                    <StackPanel Spacing="12">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="✓" FontSize="16" Foreground="{StaticResource FluentAccent}" FontWeight="Bold"/>
+                            <TextBlock Text="Generate QR codes from text or URLs" FontSize="14"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="✓" FontSize="16" Foreground="{StaticResource FluentAccent}" FontWeight="Bold"/>
+                            <TextBlock Text="Auto-generate with customizable delay" FontSize="14"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="✓" FontSize="16" Foreground="{StaticResource FluentAccent}" FontWeight="Bold"/>
+                            <TextBlock Text="Multiple export formats (JPG, PNG, BMP)" FontSize="14"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="✓" FontSize="16" Foreground="{StaticResource FluentAccent}" FontWeight="Bold"/>
+                            <TextBlock Text="History tracking of generated codes" FontSize="14"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="✓" FontSize="16" Foreground="{StaticResource FluentAccent}" FontWeight="Bold"/>
+                            <TextBlock Text="Modern Fluent Design interface" FontSize="14"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="✓" FontSize="16" Foreground="{StaticResource FluentAccent}" FontWeight="Bold"/>
+                            <TextBlock Text="Cross-platform (Windows, macOS, Linux)" FontSize="14"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Credits Card -->
+            <Border Theme="{StaticResource FluentCard}">
+                <StackPanel Spacing="16">
+                    <TextBlock Text="Credits & Technologies"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource FluentTextPrimary}"/>
+
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Built with:" FontSize="13" FontWeight="Medium" Foreground="{StaticResource FluentTextSecondary}"/>
+                        <StackPanel Spacing="6" Margin="16,0,0,0">
+                            <TextBlock Text="• Avalonia UI - Cross-platform UI framework" FontSize="13"/>
+                            <TextBlock Text="• ReactiveUI - MVVM framework" FontSize="13"/>
+                            <TextBlock Text="• QRCoder - QR code generation library" FontSize="13"/>
+                            <TextBlock Text="• Microsoft Fluent Design System" FontSize="13"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Copyright Card -->
+            <Border Theme="{StaticResource FluentCard}" Background="#F9F9F9">
+                <StackPanel Spacing="12" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Copyright}"
+                               FontSize="13"
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource FluentTextSecondary}"/>
+                    <TextBlock Text="Made with ❤️ using Avalonia"
+                               FontSize="12"
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource FluentTextSecondary}"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
