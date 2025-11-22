@@ -6,36 +6,150 @@
         xmlns:controls="clr-namespace:Avalonia.Notification.Controls;assembly=Notification.Avalonia"
         xmlns:models="clr-namespace:AvaloniaApplication4.Models"
         xmlns:viewModels="clr-namespace:AvaloniaApplication4.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="700"
         x:Class="AvaloniaApplication4.Views.MainWindow"
         Icon="/Assets/download.png"
-        Title="AvaloniaQR 0.03-Alpha : Copyright @ PlashSpeed-Aiman"
-        x:DataType="viewModels:MainWindowViewModel">
+        Title="AvaloniaQR - QR Code Generator"
+        x:DataType="viewModels:MainWindowViewModel"
+        MinWidth="900" MinHeight="600"
+        Background="#F3F3F3">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-    <Grid>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="250" />
-		<ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-		<ColumnDefinition Width="*" />
 
-	</Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-		<RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
-		<RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-        <Border Grid.Column="1" Grid.ColumnSpan="3">
-			<controls:NotificationMessageContainer  Manager="{CompiledBinding Manager}">
+    <!-- Fluent Design Color Palette and Styles -->
+    <Window.Resources>
+        <!-- Fluent Colors -->
+        <SolidColorBrush x:Key="FluentAccent" Color="#0078D4"/>
+        <SolidColorBrush x:Key="FluentAccentLight" Color="#1890D6"/>
+        <SolidColorBrush x:Key="FluentAccentDark" Color="#005A9E"/>
+        <SolidColorBrush x:Key="FluentSuccess" Color="#107C10"/>
+        <SolidColorBrush x:Key="FluentDanger" Color="#E81123"/>
+        <SolidColorBrush x:Key="FluentCardBackground" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="FluentSidebarBackground" Color="#F9F9F9"/>
+        <SolidColorBrush x:Key="FluentTextPrimary" Color="#000000"/>
+        <SolidColorBrush x:Key="FluentTextSecondary" Color="#605E5C"/>
+        <SolidColorBrush x:Key="FluentBorderColor" Color="#E1DFDD"/>
+
+        <!-- Card Style with Elevation -->
+        <ControlTheme x:Key="FluentCard" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource FluentCardBackground}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="24"/>
+            <Setter Property="BoxShadow" Value="0 2 8 0 #15000000"/>
+        </ControlTheme>
+
+        <!-- Modern Button Style -->
+        <ControlTheme x:Key="FluentPrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource FluentAccent}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="{StaticResource FluentAccentLight}"/>
+            </Style>
+            <Style Selector="^:pressed">
+                <Setter Property="Background" Value="{StaticResource FluentAccentDark}"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Secondary Button Style -->
+        <ControlTheme x:Key="FluentSecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource FluentAccent}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource FluentAccent}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="#F0F6FC"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Danger Button Style -->
+        <ControlTheme x:Key="FluentDangerButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource FluentDanger}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="MinHeight" Value="32"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="#C50F1F"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Success Button Style -->
+        <ControlTheme x:Key="FluentSuccessButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource FluentSuccess}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="MinHeight" Value="32"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style Selector="^:pointerover">
+                <Setter Property="Background" Value="#0E6A0E"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Modern TextBox Style -->
+        <ControlTheme x:Key="FluentTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource FluentBorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Style Selector="^:focus">
+                <Setter Property="BorderBrush" Value="{StaticResource FluentAccent}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Modern ComboBox Style -->
+        <ControlTheme x:Key="FluentComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource FluentBorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinHeight" Value="40"/>
+        </ControlTheme>
+    </Window.Resources>
+
+    <Window.Styles>
+        <!-- ListBox Item Style -->
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid Margin="0">
+        <!-- Notification Container Overlay -->
+        <Border Grid.ColumnSpan="3" ZIndex="1000">
+            <controls:NotificationMessageContainer Manager="{CompiledBinding Manager}">
                 <controls:NotificationMessageContainer.Styles>
                     <Style Selector="controls|NotificationMessageContainer">
-
                         <Setter Property="ItemsPanel">
                             <Setter.Value>
                                 <ItemsPanelTemplate>
@@ -47,79 +161,314 @@
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type controls:NotificationMessageContainer}">
                                     <Grid>
-
-                                        <Border 
-                                                x:Name="ItemsBorder"
-                                                Margin="12,0,12,12"
+                                        <Border x:Name="ItemsBorder"
+                                                Margin="16"
                                                 Padding="{TemplateBinding Padding}"
                                                 Background="{TemplateBinding Background}"
                                                 UseLayoutRounding="True">
-
-                                            <ItemsPresenter>
-
-                                            </ItemsPresenter>
+                                            <ItemsPresenter />
                                         </Border>
                                     </Grid>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
                         <Setter Property="VerticalAlignment" Value="Top" />
+                        <Setter Property="HorizontalAlignment" Value="Right" />
                     </Style>
-				</controls:NotificationMessageContainer.Styles>
+                </controls:NotificationMessageContainer.Styles>
             </controls:NotificationMessageContainer>
         </Border>
-        <Border Background="#00877d" Grid.RowSpan="5">
-            <StackPanel>
-                <TextBlock Margin="10" Foreground="White" Text="Instruction :"/>
-                <TextBlock Margin="10" Foreground="White" Text="Insert Data, Generate, then Save" />
-                <Image MaxHeight="200" MaxWidth="200" Stretch="Fill"  Margin="0,10,0,0" Source="{CompiledBinding BitmapVal}" Grid.Row="0" Grid.Column="0" ></Image>
-			</StackPanel>
 
-		</Border>
-		<StackPanel Margin="20,0,20,0" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
-            <Label  Margin="0,10,0,5" FontSize="20" Grid.Row="1">Data To Convert</Label>
-            <TextBox FontSize="20" MaxHeight="250" Text ="{CompiledBinding ConvertText, Mode=TwoWay}" ></TextBox>
-            <Label Margin="0,10,0,5" FontSize="20" Grid.Row="1">Filename</Label>
-            <TextBox FontSize="20" Text="{CompiledBinding QRFileName, Mode=TwoWay}"></TextBox>
-            <Label Margin="0,10,0,5" FontSize="20">File Type</Label>
-            <ComboBox SelectedItem="{CompiledBinding SelectedFileExtension}">
-                <x:String>.jpg</x:String>
-                <x:String>.png</x:String>
-                <x:String>.bmp</x:String>
-			</ComboBox>
-            <StackPanel Orientation="Horizontal">
-                <Button FontSize="20" Margin="0,10,0,0" Command="{CompiledBinding GenerateAndSaveQRCode}">Generate</Button>
-                <Button FontSize="20" Margin="10,10,0,0" Command="{CompiledBinding SaveQRFile}">Save</Button>
-            </StackPanel>
-		</StackPanel>
-		<Border Grid.Row="0" Grid.RowSpan="5" Grid.Column="4" MaxWidth="500">
-			<ListBox HorizontalAlignment="Stretch" Name="ListBox" Items="{Binding QRCodes}" Background="#F2F2F2">
+        <!-- Main Content Grid -->
+        <Grid ColumnDefinitions="320,*,380" Margin="0">
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="models:QrCode">
-                        <Border Background="{StaticResource AccentButtonForeground}" CornerRadius="4" Padding="10" >
-                            <StackPanel>
-                                <TextBlock TextWrapping="Wrap" Text="{CompiledBinding Link}" Margin="0,0,0,5"/>
-                                <TextBlock Text="{CompiledBinding FileName}" Margin="0,0,0,5"/>
-                                <StackPanel  Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
-                                    <Button HorizontalContentAlignment="Center" Foreground="White" Background="#e53935"
-                                            Content="Delete"
-                                            IsEnabled="{Binding Path=IsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}},Path=DataContext.DeleteListItem}" CommandParameter="{Binding ElementName=ListBox,Path=SelectedIndex}"></Button>
+            <!-- Left Sidebar - Preview Panel -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource FluentSidebarBackground}"
+                    BorderBrush="{StaticResource FluentBorderColor}"
+                    BorderThickness="0,0,1,0"
+                    Padding="24">
+                <StackPanel Spacing="20">
+                    <!-- Header -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="QR Code Preview"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource FluentTextPrimary}"/>
+                        <TextBlock Text="Live preview of your QR code"
+                                   FontSize="13"
+                                   Foreground="{StaticResource FluentTextSecondary}"/>
+                    </StackPanel>
 
-                                    <Button Background="#1e88e5" Foreground="White"
-                                        HorizontalContentAlignment="Center"  x:Name="Button_Delete" IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"
-                                            Width="100" Content="Generate" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}},Path=DataContext.RegenerateFromHistory}" CommandParameter="{Binding ElementName=ListBox,Path=SelectedItem}">
-                                    </Button>
-								</StackPanel>
+                    <!-- QR Code Preview Card -->
+                    <Border Theme="{StaticResource FluentCard}"
+                            Padding="20"
+                            HorizontalAlignment="Center">
+                        <Panel>
+                            <!-- Placeholder when no QR code -->
+                            <Border Width="240"
+                                    Height="240"
+                                    Background="#F0F0F0"
+                                    CornerRadius="8"
+                                    IsVisible="{Binding BitmapVal, Converter={x:Static ObjectConverters.IsNull}}">
+                                <StackPanel VerticalAlignment="Center" Spacing="12">
+                                    <TextBlock Text="📱"
+                                               FontSize="48"
+                                               HorizontalAlignment="Center"
+                                               Opacity="0.5"/>
+                                    <TextBlock Text="No QR Code Yet"
+                                               FontSize="14"
+                                               FontWeight="Medium"
+                                               HorizontalAlignment="Center"
+                                               Foreground="{StaticResource FluentTextSecondary}"/>
+                                    <TextBlock Text="Enter data to generate"
+                                               FontSize="12"
+                                               HorizontalAlignment="Center"
+                                               Foreground="{StaticResource FluentTextSecondary}"
+                                               Opacity="0.7"/>
+                                </StackPanel>
+                            </Border>
 
-							</StackPanel>
-						</Border>
+                            <!-- Actual QR Code -->
+                            <Image Source="{CompiledBinding BitmapVal}"
+                                   Width="240"
+                                   Height="240"
+                                   Stretch="Uniform"
+                                   IsVisible="{Binding BitmapVal, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                        </Panel>
+                    </Border>
 
-					</DataTemplate>
-                </ListBox.ItemTemplate>
-				
-		</ListBox>
-        </Border>
+                    <!-- Instructions Card -->
+                    <Border Theme="{StaticResource FluentCard}" Padding="16">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="💡 Quick Guide"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource FluentTextPrimary}"/>
+                            <StackPanel Spacing="8">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="1." FontWeight="SemiBold" Foreground="{StaticResource FluentAccent}"/>
+                                    <TextBlock Text="Enter your data" FontSize="13" Foreground="{StaticResource FluentTextSecondary}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="2." FontWeight="SemiBold" Foreground="{StaticResource FluentAccent}"/>
+                                    <TextBlock Text="Set a filename" FontSize="13" Foreground="{StaticResource FluentTextSecondary}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="3." FontWeight="SemiBold" Foreground="{StaticResource FluentAccent}"/>
+                                    <TextBlock Text="Generate QR code" FontSize="13" Foreground="{StaticResource FluentTextSecondary}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="4." FontWeight="SemiBold" Foreground="{StaticResource FluentAccent}"/>
+                                    <TextBlock Text="Save to desktop" FontSize="13" Foreground="{StaticResource FluentTextSecondary}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Center - Main Form -->
+            <ScrollViewer Grid.Column="1"
+                          VerticalScrollBarVisibility="Auto"
+                          Padding="32">
+                <StackPanel Spacing="24" MaxWidth="600">
+                    <!-- Header Section -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Create QR Code"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource FluentTextPrimary}"/>
+                        <TextBlock Text="Generate QR codes from any text or URL"
+                                   FontSize="14"
+                                   Foreground="{StaticResource FluentTextSecondary}"/>
+                    </StackPanel>
+
+                    <!-- Main Form Card -->
+                    <Border Theme="{StaticResource FluentCard}">
+                        <StackPanel Spacing="20">
+                            <!-- Data Input Section -->
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Data to Convert"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource FluentTextPrimary}"/>
+                                <TextBlock Text="Enter the text, URL, or data you want to encode"
+                                           FontSize="12"
+                                           Foreground="{StaticResource FluentTextSecondary}"
+                                           Margin="0,0,0,4"/>
+                                <TextBox Theme="{StaticResource FluentTextBox}"
+                                         Text="{CompiledBinding ConvertText, Mode=TwoWay}"
+                                         Watermark="Enter text or URL..."
+                                         MaxHeight="150"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"/>
+                            </StackPanel>
+
+                            <!-- Divider -->
+                            <Border Height="1" Background="{StaticResource FluentBorderColor}"/>
+
+                            <!-- Settings Section -->
+                            <StackPanel Spacing="16">
+                                <TextBlock Text="Settings"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource FluentTextPrimary}"/>
+
+                                <!-- Filename Input -->
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="Filename"
+                                               FontSize="13"
+                                               FontWeight="Medium"
+                                               Foreground="{StaticResource FluentTextPrimary}"/>
+                                    <TextBox Theme="{StaticResource FluentTextBox}"
+                                             Text="{CompiledBinding QRFileName, Mode=TwoWay}"
+                                             Watermark="my-qrcode"/>
+                                </StackPanel>
+
+                                <!-- File Type Selection -->
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="File Format"
+                                               FontSize="13"
+                                               FontWeight="Medium"
+                                               Foreground="{StaticResource FluentTextPrimary}"/>
+                                    <ComboBox Theme="{StaticResource FluentComboBox}"
+                                              SelectedItem="{CompiledBinding SelectedFileExtension}"
+                                              HorizontalAlignment="Stretch">
+                                        <x:String>.jpg</x:String>
+                                        <x:String>.png</x:String>
+                                        <x:String>.bmp</x:String>
+                                    </ComboBox>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- Divider -->
+                            <Border Height="1" Background="{StaticResource FluentBorderColor}"/>
+
+                            <!-- Action Buttons -->
+                            <Grid ColumnDefinitions="*,*" ColumnGap="12">
+                                <Button Grid.Column="0"
+                                        Theme="{StaticResource FluentPrimaryButton}"
+                                        Command="{CompiledBinding GenerateAndSaveQRCode}"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="✨" FontSize="16"/>
+                                        <TextBlock Text="Generate"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Grid.Column="1"
+                                        Theme="{StaticResource FluentSecondaryButton}"
+                                        Command="{CompiledBinding SaveQRFile}"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="💾" FontSize="16"/>
+                                        <TextBlock Text="Save"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Info Card -->
+                    <Border Theme="{StaticResource FluentCard}"
+                            Background="#FFF9F0"
+                            BorderBrush="#FFE8B3"
+                            BorderThickness="1"
+                            Padding="16">
+                        <StackPanel Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="ℹ️" FontSize="16"/>
+                                <TextBlock Text="Auto-Generate Enabled"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="#8B5A00"/>
+                            </StackPanel>
+                            <TextBlock Text="QR codes are automatically generated as you type (0.5s delay)"
+                                       FontSize="12"
+                                       Foreground="#8B5A00"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Right Sidebar - History Panel -->
+            <Border Grid.Column="2"
+                    Background="{StaticResource FluentSidebarBackground}"
+                    BorderBrush="{StaticResource FluentBorderColor}"
+                    BorderThickness="1,0,0,0"
+                    Padding="24">
+                <DockPanel>
+                    <!-- Header -->
+                    <StackPanel DockPanel.Dock="Top" Spacing="8" Margin="0,0,0,20">
+                        <TextBlock Text="History"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource FluentTextPrimary}"/>
+                        <TextBlock Text="Your recently generated QR codes"
+                                   FontSize="13"
+                                   Foreground="{StaticResource FluentTextSecondary}"/>
+                    </StackPanel>
+
+                    <!-- History List -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ListBox Name="ListBox"
+                                 Items="{CompiledBinding QRCodes}"
+                                 Background="Transparent"
+                                 BorderThickness="0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:QrCode">
+                                    <Border Theme="{StaticResource FluentCard}"
+                                            Padding="16"
+                                            Margin="0,0,0,12">
+                                        <StackPanel Spacing="12">
+                                            <!-- Content -->
+                                            <StackPanel Spacing="6">
+                                                <TextBlock Text="{CompiledBinding FileName}"
+                                                           FontSize="14"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{StaticResource FluentTextPrimary}"/>
+                                                <TextBlock Text="{CompiledBinding Link}"
+                                                           FontSize="12"
+                                                           Foreground="{StaticResource FluentTextSecondary}"
+                                                           TextWrapping="Wrap"
+                                                           MaxHeight="60"
+                                                           TextTrimming="CharacterEllipsis"/>
+                                            </StackPanel>
+
+                                            <!-- Action Buttons -->
+                                            <Grid ColumnDefinitions="*,*" ColumnGap="8">
+                                                <Button Grid.Column="0"
+                                                        Theme="{StaticResource FluentSuccessButton}"
+                                                        IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"
+                                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=DataContext.RegenerateFromHistory}"
+                                                        CommandParameter="{Binding ElementName=ListBox, Path=SelectedItem}"
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Center">
+                                                    <TextBlock Text="↻ Load" FontSize="12"/>
+                                                </Button>
+
+                                                <Button Grid.Column="1"
+                                                        Theme="{StaticResource FluentDangerButton}"
+                                                        IsEnabled="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"
+                                                        Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=DataContext.DeleteListItem}"
+                                                        CommandParameter="{Binding ElementName=ListBox, Path=SelectedIndex}"
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Center">
+                                                    <TextBlock Text="🗑 Delete" FontSize="12"/>
+                                                </Button>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
