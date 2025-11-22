@@ -118,7 +118,7 @@
             <!-- Credits Card -->
             <Border Theme="{StaticResource FluentCard}">
                 <StackPanel Spacing="16">
-                    <TextBlock Text="Credits & Technologies"
+                    <TextBlock Text="Credits &amp; Technologies"
                                FontSize="18"
                                FontWeight="SemiBold"
                                Foreground="{StaticResource FluentTextPrimary}"/>
